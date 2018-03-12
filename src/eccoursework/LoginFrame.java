@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 import viewController.CloseChild;
 import viewController.CloseParent;
 import javax.swing.JOptionPane;
+import java.sql.*;
 
 /**
  *
@@ -16,11 +17,14 @@ import javax.swing.JOptionPane;
  */
 public class LoginFrame extends javax.swing.JFrame {
 
+    private Connection dbCon;
+
     /**
      * Creates new form LoginFrame
      */
     public LoginFrame() {
         initComponents();
+        setTitle("Awaiting Connection...");
     }
 
     /**
@@ -40,6 +44,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         registerLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        dbLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -52,6 +57,12 @@ public class LoginFrame extends javax.swing.JFrame {
         });
 
         userLabel.setText("Username");
+
+        userTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                userTextFieldFocusGained(evt);
+            }
+        });
 
         passLabel.setText("Password");
 
@@ -95,8 +106,10 @@ public class LoginFrame extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(loginButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)))
+                        .addGap(98, 98, 98)
+                        .addComponent(dbLabel)))
+                .addContainerGap(305, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -109,7 +122,8 @@ public class LoginFrame extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passLabel)
-                    .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dbLabel))
                 .addGap(38, 38, 38)
                 .addComponent(loginButton)
                 .addGap(18, 18, 18)
@@ -124,13 +138,30 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void loginButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginButtonMouseClicked
         // TODO add your handling code here:
-        String loginValidate = new String(PasswordField.getPassword());
-        if(loginValidate.equals("pass")){
-            String username = userTextField.getText();
-            new MainMenu(username).setVisible(true);
-            CloseChild closeChild = new CloseChild(this);
-        }else{
-            JOptionPane.showMessageDialog(null, "Unrecognized username or password");
+        String userValid, passValid;
+        userValid = new String(userTextField.getText());
+        passValid = new String(PasswordField.getPassword());
+        dbCon = DBConnect.openDBConnection();
+        PreparedStatement prepState = null;
+        ResultSet resSet = null;
+        String dbLogin = "Select * from Users where username=? and password=?";
+        try {
+            prepState = dbCon.prepareStatement(dbLogin);
+            prepState.setString(1, userValid);
+            prepState.setString(2, passValid);
+            resSet = prepState.executeQuery();
+            if (resSet.next()) {
+                new MainMenu(userValid).setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Invalid username or password","Access Denied",JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }finally{
+            try{resSet.close();} catch(Exception e) {}
+            try{prepState.close();} catch(Exception e) {}
+            try{dbCon.close();} catch(Exception e) {}
         }
     }//GEN-LAST:event_loginButtonMouseClicked
 
@@ -145,6 +176,11 @@ public class LoginFrame extends javax.swing.JFrame {
         CloseParent shutdown = new CloseParent();
         shutdown.windowClosing(evt);
     }//GEN-LAST:event_formWindowClosing
+
+    private void userTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userTextFieldFocusGained
+        // TODO add your handling code here:
+        setTitle("Database Connection Established");
+    }//GEN-LAST:event_userTextFieldFocusGained
 
     /**
      * @param args the command line arguments
@@ -183,6 +219,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPasswordField PasswordField;
+    private javax.swing.JLabel dbLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton loginButton;

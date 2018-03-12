@@ -5,11 +5,15 @@
  */
 package eccoursework;
 
+import java.sql.*;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Liam Keogh
  */
 public class NewUserFrame extends javax.swing.JFrame {
+    private Connection dbCon;
 
     /**
      * Creates new form NewUserFrame
@@ -32,6 +36,10 @@ public class NewUserFrame extends javax.swing.JFrame {
         passLabel = new javax.swing.JLabel();
         newPasswordField = new javax.swing.JPasswordField();
         registerButton = new javax.swing.JButton();
+        sNameLabel = new javax.swing.JLabel();
+        sNameTextField = new javax.swing.JTextField();
+        firstNameLabel = new javax.swing.JLabel();
+        fNameTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,36 +56,58 @@ public class NewUserFrame extends javax.swing.JFrame {
             }
         });
 
+        sNameLabel.setText("Last Name");
+
+        firstNameLabel.setText("First Name");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(99, 99, 99)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(userLabel)
-                    .addComponent(passLabel))
-                .addGap(57, 57, 57)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(registerButton)
-                    .addComponent(newPasswordField, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-                    .addComponent(userTextField))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(firstNameLabel)
+                        .addGap(57, 57, 57)
+                        .addComponent(fNameTextField))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(sNameLabel)
+                        .addGap(57, 57, 57)
+                        .addComponent(sNameTextField))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(userLabel)
+                            .addComponent(passLabel))
+                        .addGap(57, 57, 57)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(registerButton)
+                            .addComponent(newPasswordField, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                            .addComponent(userTextField))))
                 .addContainerGap(111, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(72, 72, 72)
+                .addContainerGap(53, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(userLabel)
-                    .addComponent(userTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                    .addComponent(fNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(firstNameLabel))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sNameLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(userTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userLabel))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passLabel)
                     .addComponent(newPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                .addGap(50, 50, 50)
                 .addComponent(registerButton)
-                .addContainerGap(107, Short.MAX_VALUE))
+                .addGap(47, 47, 47))
         );
 
         pack();
@@ -85,8 +115,30 @@ public class NewUserFrame extends javax.swing.JFrame {
 
     private void registerButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerButtonMouseClicked
         // TODO add your handling code here:
-        new MainMenu().setVisible(true);
-        this.dispose();
+        String fNameReg, sNameReg, userReg, passReg;
+        fNameReg = new String(fNameTextField.getText());
+        sNameReg = new String(sNameTextField.getText());
+        userReg = new String(userTextField.getText());
+        passReg = new String(newPasswordField.getPassword());
+        
+        dbCon = DBConnect.openDBConnection();
+        Statement prepState = null;
+        try {
+            prepState = dbCon.createStatement();
+            int db = prepState.executeUpdate("insert into Users values('" + userReg + "','" + passReg + "', '" + fNameReg + "', '" + sNameReg + "')");
+            if (db == 1) {
+                new MainMenu(userReg).setVisible(true);
+                this.dispose();
+            } else {
+                //JOptionPane.showMessageDialog(null, "Invalid username or password");
+                JOptionPane.showMessageDialog(null, "Insertion Error","Access Denied",JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }finally{
+            try{prepState.close();} catch(Exception e) {}
+            try{dbCon.close();} catch(Exception e) {}
+        }
     }//GEN-LAST:event_registerButtonMouseClicked
 
     /**
@@ -125,9 +177,13 @@ public class NewUserFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField fNameTextField;
+    private javax.swing.JLabel firstNameLabel;
     private javax.swing.JPasswordField newPasswordField;
     private javax.swing.JLabel passLabel;
     private javax.swing.JButton registerButton;
+    private javax.swing.JLabel sNameLabel;
+    private javax.swing.JTextField sNameTextField;
     private javax.swing.JLabel userLabel;
     private javax.swing.JTextField userTextField;
     // End of variables declaration//GEN-END:variables

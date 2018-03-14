@@ -40,6 +40,7 @@ public class NewUserFrame extends javax.swing.JFrame {
         sNameTextField = new javax.swing.JTextField();
         firstNameLabel = new javax.swing.JLabel();
         fNameTextField = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,31 +61,38 @@ public class NewUserFrame extends javax.swing.JFrame {
 
         firstNameLabel.setText("First Name");
 
+        jButton1.setText("Reset");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton1MousePressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(99, 99, 99)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(firstNameLabel)
-                        .addGap(57, 57, 57)
-                        .addComponent(fNameTextField))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(sNameLabel)
-                        .addGap(57, 57, 57)
-                        .addComponent(sNameTextField))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(userLabel)
-                            .addComponent(passLabel))
-                        .addGap(57, 57, 57)
+                            .addComponent(passLabel)
+                            .addComponent(sNameLabel)
+                            .addComponent(firstNameLabel))
+                        .addGap(54, 54, 54)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(registerButton)
-                            .addComponent(newPasswordField, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-                            .addComponent(userTextField))))
-                .addContainerGap(111, Short.MAX_VALUE))
+                            .addComponent(sNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                            .addComponent(userTextField)
+                            .addComponent(newPasswordField)
+                            .addComponent(fNameTextField)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addComponent(jButton1)
+                        .addGap(41, 41, 41)
+                        .addComponent(registerButton)))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,7 +114,9 @@ public class NewUserFrame extends javax.swing.JFrame {
                     .addComponent(passLabel)
                     .addComponent(newPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(50, 50, 50)
-                .addComponent(registerButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(registerButton))
                 .addGap(47, 47, 47))
         );
 
@@ -120,6 +130,15 @@ public class NewUserFrame extends javax.swing.JFrame {
         sNameReg = new String(sNameTextField.getText());
         userReg = new String(userTextField.getText());
         passReg = new String(newPasswordField.getPassword());
+
+        if(fNameReg.equals("") || sNameReg.equals("") || 
+                userReg.equals("") || passReg.length() == 0){
+            JOptionPane.showMessageDialog(null, "Missing input values");
+            //System.out.println("If statement executed as expected");
+            
+        }else{
+        
+
         
         dbCon = DBConnect.openDBConnection();
         Statement prepState = null;
@@ -129,8 +148,8 @@ public class NewUserFrame extends javax.swing.JFrame {
             if (db == 1) {
                 new MainMenu(userReg).setVisible(true);
                 this.dispose();
+                //System.out.println("Else statement executed as expected");
             } else {
-                //JOptionPane.showMessageDialog(null, "Invalid username or password");
                 JOptionPane.showMessageDialog(null, "Insertion Error","Access Denied",JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception e) {
@@ -139,13 +158,24 @@ public class NewUserFrame extends javax.swing.JFrame {
             try{prepState.close();} catch(Exception e) {}
             try{dbCon.close();} catch(Exception e) {}
         }
+        }
+
     }//GEN-LAST:event_registerButtonMouseClicked
+
+    private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
+        // TODO add your handling code here:
+        fNameTextField.setText("");
+        sNameTextField.setText("");
+        userTextField.setText("");
+        newPasswordField.setText("");
+    }//GEN-LAST:event_jButton1MousePressed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
+        System.out.println("Register a new user");
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -179,6 +209,7 @@ public class NewUserFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField fNameTextField;
     private javax.swing.JLabel firstNameLabel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPasswordField newPasswordField;
     private javax.swing.JLabel passLabel;
     private javax.swing.JButton registerButton;

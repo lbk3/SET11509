@@ -58,13 +58,13 @@ public class LoginFrame extends javax.swing.JFrame {
 
         userLabel.setText("Username");
 
-        userTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+        passLabel.setText("Password");
+
+        PasswordField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                userTextFieldFocusGained(evt);
+                PasswordFieldFocusGained(evt);
             }
         });
-
-        passLabel.setText("Password");
 
         loginButton.setText("Login");
         loginButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -177,10 +177,10 @@ public class LoginFrame extends javax.swing.JFrame {
         shutdown.windowClosing(evt);
     }//GEN-LAST:event_formWindowClosing
 
-    private void userTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userTextFieldFocusGained
+    private void PasswordFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_PasswordFieldFocusGained
         // TODO add your handling code here:
         setTitle("Database Connection Established");
-    }//GEN-LAST:event_userTextFieldFocusGained
+    }//GEN-LAST:event_PasswordFieldFocusGained
 
     /**
      * @param args the command line arguments

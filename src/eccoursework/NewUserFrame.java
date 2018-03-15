@@ -125,11 +125,12 @@ public class NewUserFrame extends javax.swing.JFrame {
 
     private void registerButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerButtonMouseClicked
         // TODO add your handling code here:
-        String fNameReg, sNameReg, userReg, passReg;
+        String fNameReg, sNameReg, userReg, passReg, levelReg;
         fNameReg = new String(fNameTextField.getText());
         sNameReg = new String(sNameTextField.getText());
         userReg = new String(userTextField.getText());
         passReg = new String(newPasswordField.getPassword());
+        levelReg = "User";
 
         if(fNameReg.equals("") || sNameReg.equals("") || 
                 userReg.equals("") || passReg.length() == 0){
@@ -144,7 +145,7 @@ public class NewUserFrame extends javax.swing.JFrame {
         Statement prepState = null;
         try {
             prepState = dbCon.createStatement();
-            int db = prepState.executeUpdate("insert into Users values('" + userReg + "','" + passReg + "', '" + fNameReg + "', '" + sNameReg + "')");
+            int db = prepState.executeUpdate("insert into Users values('" + userReg + "','" + passReg + "', '" + fNameReg + "', '" + sNameReg + "', '" + levelReg + "')");
             if (db == 1) {
                 new MainMenu(userReg).setVisible(true);
                 this.dispose();

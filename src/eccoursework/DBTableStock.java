@@ -17,29 +17,30 @@ import net.proteanit.sql.DbUtils;
 public class DBTableStock extends javax.swing.JFrame {
 
     private Connection dbCon;
-    PreparedStatement prepState = null;
-    ResultSet resSet = null;
 
     /**
      * Creates new form DBTableStock
      */
     public DBTableStock() {
         initComponents();
-        dbFetch();
+        dbSharesFetch();
     }
 
-    public void dbFetch(){
-        try{
+    public void dbSharesFetch() {
+        PreparedStatement prepState = null;
+        ResultSet resSet = null;
+        try {
             dbCon = DBConnect.openDBConnection();
-            String dbFetchTable = "Select * from CompanyStock";
+            String dbFetchTable = "Select * from Shares";
             prepState = dbCon.prepareStatement(dbFetchTable);
             resSet = prepState.executeQuery();
-            
+
             stockTable.setModel(DbUtils.resultSetToTableModel(resSet));
-        }catch (Exception e){
-            JOptionPane.showMessageDialog(null, "Error retrieving data","Fetch Error",JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error retrieving data", "Fetch Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,6 +54,13 @@ public class DBTableStock extends javax.swing.JFrame {
         stockTable = new javax.swing.JTable();
         backButton = new javax.swing.JButton();
         logoutButton = new javax.swing.JButton();
+        searchTextField = new javax.swing.JTextField();
+        dbButton = new javax.swing.JButton();
+        comNameTextField = new javax.swing.JTextField();
+        comCodeTextField = new javax.swing.JTextField();
+        sharePriceTextField = new javax.swing.JTextField();
+        shareNoTextField = new javax.swing.JTextField();
+        comValueTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -83,6 +91,20 @@ public class DBTableStock extends javax.swing.JFrame {
             }
         });
 
+        searchTextField.setText("Search...");
+        searchTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                searchTextFieldFocusGained(evt);
+            }
+        });
+
+        dbButton.setText("Search");
+        dbButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                dbButtonMousePressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -90,18 +112,48 @@ public class DBTableStock extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(backButton)
+                .addGap(45, 45, 45)
+                .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dbButton)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(logoutButton))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(comValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(comNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comCodeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(34, 34, 34)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(shareNoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(sharePriceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(backButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(backButton)
+                    .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dbButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sharePriceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comCodeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(shareNoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(comValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addComponent(logoutButton))
         );
 
@@ -119,6 +171,44 @@ public class DBTableStock extends javax.swing.JFrame {
         new MainMenu().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backButtonMouseClicked
+
+    private void searchTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchTextFieldFocusGained
+        // TODO add your handling code here:
+        searchTextField.setText("");
+    }//GEN-LAST:event_searchTextFieldFocusGained
+
+    private void dbButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dbButtonMousePressed
+        // TODO add your handling code here:
+        String dbSearch, db1, db2, db3, db4, db5;
+        dbSearch = new String(searchTextField.getText());
+
+        dbCon = DBConnect.openDBConnection();
+        PreparedStatement prepState = null;
+        ResultSet resSet = null;
+        String dbShares = "select * from Shares where companyname=?";
+        try {
+            prepState = dbCon.prepareStatement(dbShares);
+            prepState.setString(1, dbSearch);
+            resSet = prepState.executeQuery();
+
+            if (resSet.next()) {
+                db1 = resSet.getString(1);
+                db2 = resSet.getString(2);
+                db3 = resSet.getString(3);
+                db4 = resSet.getString(4);
+                db5 = resSet.getString(5);
+
+                comCodeTextField.setText(db1);
+                comNameTextField.setText(db2);
+                sharePriceTextField.setText(db3);
+                shareNoTextField.setText(db4);
+                comValueTextField.setText(db5);
+
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_dbButtonMousePressed
 
     /**
      * @param args the command line arguments
@@ -157,8 +247,15 @@ public class DBTableStock extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
+    private javax.swing.JTextField comCodeTextField;
+    private javax.swing.JTextField comNameTextField;
+    private javax.swing.JTextField comValueTextField;
+    private javax.swing.JButton dbButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton logoutButton;
+    private javax.swing.JTextField searchTextField;
+    private javax.swing.JTextField shareNoTextField;
+    private javax.swing.JTextField sharePriceTextField;
     private javax.swing.JTable stockTable;
     // End of variables declaration//GEN-END:variables
 }

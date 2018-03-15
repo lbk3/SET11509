@@ -20,9 +20,9 @@ public class MainMenu extends javax.swing.JFrame {
         
     }
     
-    public MainMenu(String user){
+    public MainMenu(String userValid){
         initComponents();
-        setTitle("Welcome, "+ user);
+        setTitle("Welcome, "+userValid);
     }
 
     /**
@@ -35,10 +35,11 @@ public class MainMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         logoutButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        stocksButton = new javax.swing.JButton();
+        infoButton = new javax.swing.JButton();
+        basicsButton = new javax.swing.JButton();
+        shareholderButton = new javax.swing.JButton();
+        brokerButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -54,18 +55,25 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Stock Level");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        stocksButton.setText("Market Shares");
+        stocksButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                jButton1MousePressed(evt);
+                stocksButtonMousePressed(evt);
             }
         });
 
-        jButton2.setText("Trading Info");
+        infoButton.setText("Trading Info");
 
-        jButton3.setText("Share Basics");
+        basicsButton.setText("Share Basics");
 
-        jButton4.setText("Shareholders");
+        shareholderButton.setText("Shareholders");
+
+        brokerButton.setText("Find-A-Broker");
+        brokerButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                brokerButtonMousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -77,28 +85,32 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(78, 78, 78)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
-                .addGap(86, 86, 86))
+                    .addComponent(stocksButton)
+                    .addComponent(basicsButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(infoButton)
+                    .addComponent(shareholderButton))
+                .addGap(82, 82, 82))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(149, 149, 149)
+                .addComponent(brokerButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(72, 72, 72)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(stocksButton)
+                    .addComponent(infoButton))
                 .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+                    .addComponent(basicsButton)
+                    .addComponent(shareholderButton))
+                .addGap(18, 18, 18)
+                .addComponent(brokerButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addComponent(logoutButton))
         );
 
@@ -117,11 +129,17 @@ public class MainMenu extends javax.swing.JFrame {
         cc.windowClosing(evt);
     }//GEN-LAST:event_formWindowClosing
 
-    private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
+    private void stocksButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stocksButtonMousePressed
         // TODO add your handling code here:
         new DBTableStock().setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton1MousePressed
+    }//GEN-LAST:event_stocksButtonMousePressed
+
+    private void brokerButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_brokerButtonMousePressed
+        // TODO add your handling code here:
+        new BrokerFrame().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_brokerButtonMousePressed
 
     /**
      * @param args the command line arguments
@@ -160,10 +178,11 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton basicsButton;
+    private javax.swing.JButton brokerButton;
+    private javax.swing.JButton infoButton;
     private javax.swing.JButton logoutButton;
+    private javax.swing.JButton shareholderButton;
+    private javax.swing.JButton stocksButton;
     // End of variables declaration//GEN-END:variables
 }

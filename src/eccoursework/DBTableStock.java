@@ -9,6 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
+import DB.DatabaseConnectionClass;
 
 /**
  *
@@ -30,7 +31,8 @@ public class DBTableStock extends javax.swing.JFrame {
         PreparedStatement prepState = null;
         ResultSet resSet = null;
         try {
-            dbCon = DBConnect.openDBConnection();
+            DatabaseConnectionClass dbc = new DatabaseConnectionClass();
+            dbCon = DatabaseConnectionClass.openDBConnection();
             String dbFetchTable = "Select * from Shares";
             prepState = dbCon.prepareStatement(dbFetchTable);
             resSet = prepState.executeQuery();
@@ -182,7 +184,8 @@ public class DBTableStock extends javax.swing.JFrame {
         String dbSearch, db1, db2, db3, db4, db5;
         dbSearch = new String(searchTextField.getText());
 
-        dbCon = DBConnect.openDBConnection();
+        DatabaseConnectionClass dbc = new DatabaseConnectionClass();
+        dbCon = DatabaseConnectionClass.openDBConnection();
         PreparedStatement prepState = null;
         ResultSet resSet = null;
         String dbShares = "select * from Shares where companyname=?";

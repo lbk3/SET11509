@@ -5,6 +5,7 @@
  */
 package eccoursework;
 
+import DB.DatabaseConnectionClass;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
@@ -29,7 +30,8 @@ public class BrokerFrame extends javax.swing.JFrame {
         PreparedStatement prepState = null;
         ResultSet resSet = null;
         try {
-            dbCon = DBConnect.openDBConnection();
+            DatabaseConnectionClass dbc = new DatabaseConnectionClass();
+            dbCon = DatabaseConnectionClass.openDBConnection();
             String dbFetchTable = "Select * from Brokers";
             prepState = dbCon.prepareStatement(dbFetchTable);
             resSet = prepState.executeQuery();

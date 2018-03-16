@@ -5,6 +5,7 @@
  */
 package eccoursework;
 
+import DB.DatabaseConnectionClass;
 import java.sql.*;
 import javax.swing.JOptionPane;
 
@@ -13,6 +14,7 @@ import javax.swing.JOptionPane;
  * @author Liam Keogh
  */
 public class NewUserFrame extends javax.swing.JFrame {
+
     private Connection dbCon;
 
     /**
@@ -132,33 +134,38 @@ public class NewUserFrame extends javax.swing.JFrame {
         passReg = new String(newPasswordField.getPassword());
         levelReg = "User";
 
-        if(fNameReg.equals("") || sNameReg.equals("") || 
-                userReg.equals("") || passReg.length() == 0){
+        if (fNameReg.equals("") || sNameReg.equals("")
+                || userReg.equals("") || passReg.length() == 0) {
             JOptionPane.showMessageDialog(null, "Missing input values");
             //System.out.println("If statement executed as expected");
-            
-        }else{
-        
 
-        
-        dbCon = DBConnect.openDBConnection();
-        Statement prepState = null;
-        try {
-            prepState = dbCon.createStatement();
-            int db = prepState.executeUpdate("insert into Users values('" + userReg + "','" + passReg + "', '" + fNameReg + "', '" + sNameReg + "', '" + levelReg + "')");
-            if (db == 1) {
-                new MainMenu(userReg).setVisible(true);
-                this.dispose();
-                //System.out.println("Else statement executed as expected");
-            } else {
-                JOptionPane.showMessageDialog(null, "Insertion Error","Access Denied",JOptionPane.ERROR_MESSAGE);
+        } else {
+
+            DatabaseConnectionClass dbc = new DatabaseConnectionClass();
+            dbCon = DatabaseConnectionClass.openDBConnection();
+            Statement prepState = null;
+            try {
+                prepState = dbCon.createStatement();
+                int db = prepState.executeUpdate("insert into Users values('" + userReg + "','" + passReg + "', '" + fNameReg + "', '" + sNameReg + "', '" + levelReg + "')");
+                if (db == 1) {
+                    new MainMenu(userReg).setVisible(true);
+                    this.dispose();
+                    //System.out.println("Else statement executed as expected");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Insertion Error", "Access Denied", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            } finally {
+                try {
+                    prepState.close();
+                } catch (Exception e) {
+                }
+                try {
+                    dbCon.close();
+                } catch (Exception e) {
+                }
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }finally{
-            try{prepState.close();} catch(Exception e) {}
-            try{dbCon.close();} catch(Exception e) {}
-        }
         }
 
     }//GEN-LAST:event_registerButtonMouseClicked

@@ -10,6 +10,7 @@ import viewController.CloseChild;
 import viewController.CloseParent;
 import javax.swing.JOptionPane;
 import java.sql.*;
+import DB.DatabaseConnectionClass;
 
 /**
  *
@@ -141,7 +142,11 @@ public class LoginFrame extends javax.swing.JFrame {
         String userValid, passValid;
         userValid = new String(userTextField.getText());
         passValid = new String(PasswordField.getPassword());
-        dbCon = DBConnect.openDBConnection();
+        DatabaseConnectionClass dbc = new DatabaseConnectionClass();
+        dbCon = DatabaseConnectionClass.openDBConnection();
+        
+        
+        
         PreparedStatement prepState = null;
         ResultSet resSet = null;
         String dbLogin = "Select * from Users where username=? and password=?";

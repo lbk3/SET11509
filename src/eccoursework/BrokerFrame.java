@@ -23,7 +23,12 @@ public class BrokerFrame extends javax.swing.JFrame {
      */
     public BrokerFrame() {
         initComponents();
+    }
+    
+    public BrokerFrame(String userData) {
+        initComponents();
         dbBrokerFetch();
+        setTitle(userData);
     }
 
     public void dbBrokerFetch() {
@@ -51,12 +56,24 @@ public class BrokerFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel2 = new javax.swing.JLabel();
         logoutButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         brokerTable = new javax.swing.JTable();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jButton2 = new javax.swing.JButton();
+        firstTextField = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        surTextField = new javax.swing.JTextField();
+        specialTextField = new javax.swing.JTextField();
+        gradeTextField = new javax.swing.JTextField();
+        contactTextField = new javax.swing.JTextField();
+
+        jLabel2.setText("jLabel2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(600, 450));
 
         logoutButton.setText("Logout");
         logoutButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -83,26 +100,90 @@ public class BrokerFrame extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        brokerTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                brokerTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(brokerTable);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose Specialisation", "NASDAQ", "FTSE500", "Crypto" }));
+
+        jButton2.setText("Refine");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        firstTextField.setText("Broker...");
+
+        jButton1.setText("Confirm Broker");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        surTextField.setText("Broker...");
+
+        specialTextField.setText("Broker...");
+
+        gradeTextField.setText("Broker...");
+
+        contactTextField.setText("Broker...");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(logoutButton))
             .addGroup(layout.createSequentialGroup()
-                .addComponent(backButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(backButton)
+                        .addGap(43, 43, 43)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(firstTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(surTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(specialTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(gradeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(contactTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton1))))
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(logoutButton))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(backButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(backButton)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(firstTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(surTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(specialTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(gradeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(contactTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 163, Short.MAX_VALUE)
                 .addComponent(logoutButton))
         );
@@ -121,6 +202,88 @@ public class BrokerFrame extends javax.swing.JFrame {
         new LoginFrame().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_logoutButtonMousePressed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String refineBroker;
+        refineBroker = jComboBox1.getSelectedItem().toString();
+        PreparedStatement prepState = null;
+        ResultSet resSet = null;
+
+        if (refineBroker.equals("Crypto")) {
+            try {
+                DatabaseConnectionClass dbc = new DatabaseConnectionClass();
+                dbCon = DatabaseConnectionClass.openDBConnection();
+                String dbFetchTable = "Select * from Brokers where specialiality='Crypto'";
+                prepState = dbCon.prepareStatement(dbFetchTable);
+                resSet = prepState.executeQuery();
+
+                brokerTable.setModel(DbUtils.resultSetToTableModel(resSet));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error retrieving data", "Fetch Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else if (refineBroker.equals("NASDAQ")) {
+            try {
+                DatabaseConnectionClass dbc = new DatabaseConnectionClass();
+                dbCon = DatabaseConnectionClass.openDBConnection();
+                String dbFetchTable = "Select * from Brokers where specialiality='NASDAQ'";
+                prepState = dbCon.prepareStatement(dbFetchTable);
+                resSet = prepState.executeQuery();
+
+                brokerTable.setModel(DbUtils.resultSetToTableModel(resSet));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error retrieving data", "Fetch Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else if (refineBroker.equals("FTSE500")) {
+            try {
+                DatabaseConnectionClass dbc = new DatabaseConnectionClass();
+                dbCon = DatabaseConnectionClass.openDBConnection();
+                String dbFetchTable = "Select * from Brokers where specialiality='FTSE500'";
+                prepState = dbCon.prepareStatement(dbFetchTable);
+                resSet = prepState.executeQuery();
+
+                brokerTable.setModel(DbUtils.resultSetToTableModel(resSet));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error retrieving data", "Fetch Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid selection");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void brokerTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_brokerTableMouseClicked
+        // TODO add your handling code here:
+        int rowSelected = brokerTable.getSelectedRow();
+        firstTextField.setText(brokerTable.getModel().getValueAt(rowSelected, 1).toString());
+        surTextField.setText(brokerTable.getModel().getValueAt(rowSelected, 2).toString());
+        specialTextField.setText(brokerTable.getModel().getValueAt(rowSelected, 3).toString());
+        gradeTextField.setText(brokerTable.getModel().getValueAt(rowSelected, 4).toString());
+        contactTextField.setText(brokerTable.getModel().getValueAt(rowSelected, 5).toString());
+    }//GEN-LAST:event_brokerTableMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String value2DB, currentUser;
+        value2DB = firstTextField.getText() + " " + surTextField.getText();
+        currentUser = getTitle().toString();
+        DatabaseConnectionClass dbc = new DatabaseConnectionClass();
+        dbCon = DatabaseConnectionClass.openDBConnection();
+        Statement st = null;
+
+        try {
+            st = dbCon.createStatement();
+            int db = st.executeUpdate("Update Users set broker = '"+ value2DB +"' where username = '"+ currentUser +"'");
+            if (db == 1) {
+                JOptionPane.showMessageDialog(null, "Broker inserted");
+            } else {
+                JOptionPane.showMessageDialog(null, "Insertion Error", "Access Denied", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+
+        }
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -160,7 +323,16 @@ public class BrokerFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.JTable brokerTable;
+    private javax.swing.JTextField contactTextField;
+    private javax.swing.JTextField firstTextField;
+    private javax.swing.JTextField gradeTextField;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton logoutButton;
+    private javax.swing.JTextField specialTextField;
+    private javax.swing.JTextField surTextField;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,7 +5,10 @@
  */
 package eccoursework;
 
+import java.awt.event.WindowEvent;
+import javax.swing.JOptionPane;
 import viewController.CloseChild;
+
 /**
  *
  * @author Liam Keogh
@@ -17,12 +20,12 @@ public class MainMenu extends javax.swing.JFrame {
      */
     public MainMenu() {
         initComponents();
-        
+
     }
-    
-    public MainMenu(String userValid){
+
+    public MainMenu(String userValid) {
         initComponents();
-        setTitle("Welcome, "+userValid);
+        setTitle(userValid);
     }
 
     /**
@@ -42,11 +45,6 @@ public class MainMenu extends javax.swing.JFrame {
         brokerButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
 
         logoutButton.setText("Logout");
         logoutButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -123,12 +121,6 @@ public class MainMenu extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_logoutButtonMouseClicked
 
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // TODO add your handling code here:
-        CloseChild cc = new CloseChild(this);
-        cc.windowClosing(evt);
-    }//GEN-LAST:event_formWindowClosing
-
     private void stocksButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stocksButtonMousePressed
         // TODO add your handling code here:
         new DBTableStock().setVisible(true);
@@ -137,7 +129,9 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void brokerButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_brokerButtonMousePressed
         // TODO add your handling code here:
-        new BrokerFrame().setVisible(true);
+        String userData;
+        userData = getTitle().toString();
+        new BrokerFrame(userData).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_brokerButtonMousePressed
 
@@ -146,7 +140,7 @@ public class MainMenu extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        
+
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 

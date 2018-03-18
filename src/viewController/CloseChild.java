@@ -1,8 +1,6 @@
 package viewController;
 
 
-import eccoursework.LoginFrame;
-import eccoursework.MainMenu;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -31,7 +29,7 @@ public class CloseChild extends WindowAdapter
    public void windowClosing(WindowEvent e)
    {
 	   JOptionPane.showMessageDialog(null, "Closing Child");
-           new LoginFrame().setVisible(true);
-           childFrame.dispose();
+           childFrame.setEnabled(true);
+	   childFrame.requestFocus();
    }	
 }

@@ -11,6 +11,7 @@ import viewController.CloseParent;
 import javax.swing.JOptionPane;
 import java.sql.*;
 import DB.DatabaseConnectionClass;
+import DB.DatabaseLogin;
 
 /**
  *
@@ -25,6 +26,7 @@ public class LoginFrame extends javax.swing.JFrame {
      */
     public LoginFrame() {
         initComponents();
+        
         setTitle("Awaiting Connection...");
     }
 
@@ -46,6 +48,8 @@ public class LoginFrame extends javax.swing.JFrame {
         registerLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         dbLabel = new javax.swing.JLabel();
+        dbBeanButton = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -85,6 +89,13 @@ public class LoginFrame extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eccoursework/eccw.png"))); // NOI18N
 
+        dbBeanButton.setText("Check Database Connection");
+        dbBeanButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dbBeanButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -93,7 +104,10 @@ public class LoginFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(registerLabel)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(registerLabel)
+                        .addGap(362, 362, 362)
+                        .addComponent(dbLabel))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(userLabel)
@@ -108,9 +122,14 @@ public class LoginFrame extends javax.swing.JFrame {
                                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(loginButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)))
-                        .addGap(98, 98, 98)
-                        .addComponent(dbLabel)))
-                .addContainerGap(305, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(61, 61, 61)
+                                .addComponent(dbBeanButton))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(86, 86, 86)
+                                .addComponent(jLabel2)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,12 +138,14 @@ public class LoginFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(userLabel)
-                    .addComponent(userTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
+                    .addComponent(userTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dbBeanButton))
+                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passLabel)
                     .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dbLabel))
+                    .addComponent(dbLabel)
+                    .addComponent(jLabel2))
                 .addGap(38, 38, 38)
                 .addComponent(loginButton)
                 .addGap(18, 18, 18)
@@ -187,6 +208,12 @@ public class LoginFrame extends javax.swing.JFrame {
         setTitle("Database Connection Established");
     }//GEN-LAST:event_PasswordFieldFocusGained
 
+    private void dbBeanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dbBeanButtonActionPerformed
+
+            jLabel2.setText("Connected successfully");
+        
+    }//GEN-LAST:event_dbBeanButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -224,9 +251,11 @@ public class LoginFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPasswordField PasswordField;
+    private javax.swing.JButton dbBeanButton;
     private javax.swing.JLabel dbLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JButton loginButton;
     private javax.swing.JLabel passLabel;
     private javax.swing.JLabel registerLabel;

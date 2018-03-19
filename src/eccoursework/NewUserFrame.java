@@ -42,7 +42,11 @@ public class NewUserFrame extends javax.swing.JFrame {
         sNameTextField = new javax.swing.JTextField();
         firstNameLabel = new javax.swing.JLabel();
         fNameTextField = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        resetButton = new javax.swing.JButton();
+        passLabel1 = new javax.swing.JLabel();
+        passLabel2 = new javax.swing.JLabel();
+        maxTextField = new javax.swing.JTextField();
+        minTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,12 +67,16 @@ public class NewUserFrame extends javax.swing.JFrame {
 
         firstNameLabel.setText("First Name");
 
-        jButton1.setText("Reset");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        resetButton.setText("Reset");
+        resetButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                jButton1MousePressed(evt);
+                resetButtonMousePressed(evt);
             }
         });
+
+        passLabel1.setText("Share Price Max");
+
+        passLabel2.setText("Share Price Min");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -78,22 +86,26 @@ public class NewUserFrame extends javax.swing.JFrame {
                 .addGap(99, 99, 99)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addComponent(resetButton)
+                        .addGap(41, 41, 41)
+                        .addComponent(registerButton))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(userLabel)
                             .addComponent(passLabel)
                             .addComponent(sNameLabel)
-                            .addComponent(firstNameLabel))
+                            .addComponent(firstNameLabel)
+                            .addComponent(passLabel1)
+                            .addComponent(passLabel2))
                         .addGap(54, 54, 54)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(sNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-                            .addComponent(userTextField)
-                            .addComponent(newPasswordField)
-                            .addComponent(fNameTextField)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addComponent(jButton1)
-                        .addGap(41, 41, 41)
-                        .addComponent(registerButton)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(sNameTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                            .addComponent(userTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(newPasswordField, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fNameTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(maxTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(minTextField, javax.swing.GroupLayout.Alignment.LEADING))))
                 .addContainerGap(67, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -115,11 +127,19 @@ public class NewUserFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passLabel)
                     .addComponent(newPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(50, 50, 50)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(passLabel1)
+                    .addComponent(maxTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(passLabel2)
+                    .addComponent(minTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(resetButton)
                     .addComponent(registerButton))
-                .addGap(47, 47, 47))
+                .addContainerGap())
         );
 
         pack();
@@ -127,11 +147,15 @@ public class NewUserFrame extends javax.swing.JFrame {
 
     private void registerButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerButtonMouseClicked
         // TODO add your handling code here:
-        String fNameReg, sNameReg, userReg, passReg, levelReg;
+        String fNameReg, sNameReg, userReg, passReg,
+                levelReg, maxReg, minReg;
+        
         fNameReg = new String(fNameTextField.getText());
         sNameReg = new String(sNameTextField.getText());
         userReg = new String(userTextField.getText());
         passReg = new String(newPasswordField.getPassword());
+        maxReg = new String(maxTextField.getText());
+        minReg = new String(minTextField.getText());
         levelReg = "User";
 
         if (fNameReg.equals("") || sNameReg.equals("")
@@ -146,7 +170,7 @@ public class NewUserFrame extends javax.swing.JFrame {
             Statement prepState = null;
             try {
                 prepState = dbCon.createStatement();
-                int db = prepState.executeUpdate("insert into Users values('" + userReg + "','" + passReg + "', '" + fNameReg + "', '" + sNameReg + "', '" + levelReg + "')");
+                int db = prepState.executeUpdate("insert into Users values('" + userReg + "','" + passReg + "', '" + fNameReg + "','" + sNameReg + "','" + levelReg + "', '" + maxReg +"', '" + minReg + "')");
                 if (db == 1) {
                     new MainMenu(userReg).setVisible(true);
                     this.dispose();
@@ -170,13 +194,15 @@ public class NewUserFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_registerButtonMouseClicked
 
-    private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
+    private void resetButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resetButtonMousePressed
         // TODO add your handling code here:
         fNameTextField.setText("");
         sNameTextField.setText("");
         userTextField.setText("");
         newPasswordField.setText("");
-    }//GEN-LAST:event_jButton1MousePressed
+        maxTextField.setText("");
+        minTextField.setText("");
+    }//GEN-LAST:event_resetButtonMousePressed
 
     /**
      * @param args the command line arguments
@@ -217,10 +243,14 @@ public class NewUserFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField fNameTextField;
     private javax.swing.JLabel firstNameLabel;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JTextField maxTextField;
+    private javax.swing.JTextField minTextField;
     private javax.swing.JPasswordField newPasswordField;
     private javax.swing.JLabel passLabel;
+    private javax.swing.JLabel passLabel1;
+    private javax.swing.JLabel passLabel2;
     private javax.swing.JButton registerButton;
+    private javax.swing.JButton resetButton;
     private javax.swing.JLabel sNameLabel;
     private javax.swing.JTextField sNameTextField;
     private javax.swing.JLabel userLabel;

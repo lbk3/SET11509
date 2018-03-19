@@ -8,6 +8,10 @@ package eccoursework;
 import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
 import viewController.CloseChild;
+import java.sql.*;
+import DB.DatabaseConnectionClass;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  *
@@ -15,17 +19,66 @@ import viewController.CloseChild;
  */
 public class MainMenu extends javax.swing.JFrame {
 
+    private Connection dbRefresh;
+
     /**
      * Creates new form MainMenu
      */
     public MainMenu() {
         initComponents();
-
     }
 
     public MainMenu(String userValid) {
         initComponents();
         setTitle(userValid);
+        refreshDatabase();
+        checkSharePrice();
+        uiLabel2.setVisible(false);
+        uiLabel1.setVisible(false);
+        uiLabel3.setVisible(false);
+    }
+
+    private void refreshDatabase() {
+        String getUser, sql, dbMax, dbMin;
+        dbRefresh = DatabaseConnectionClass.openDBConnection();
+        PreparedStatement ps = null;
+        ResultSet res = null;
+        getUser = getTitle().toString();
+        sql = "select * from users where username = ?";
+        try {
+            ps = dbRefresh.prepareStatement(sql);
+            ps.setString(1, getUser);
+            res = ps.executeQuery();
+
+            if (res.next()) {
+                dbMax = res.getString(7);
+                dbMin = res.getString(8);
+
+                maxTextField.setText(dbMax);
+                minTextField.setText(dbMin);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+    }
+    
+    private void checkSharePrice(){
+        String current2int, max2int, min2int;
+        int getMin, getMax, current;
+        
+        current2int = currentTextField.getText();
+        current = Integer.parseInt(current2int);
+        
+        max2int = maxTextField.getText();
+        getMax = Integer.parseInt(max2int);
+        
+        min2int = minTextField.getText();
+        getMin = Integer.parseInt(min2int);
+        
+        if(current < getMin || current > getMax){
+            JOptionPane.showMessageDialog(null, "The currrent share price has fell outside your desired ranges");
+        }
     }
 
     /**
@@ -39,12 +92,22 @@ public class MainMenu extends javax.swing.JFrame {
 
         logoutButton = new javax.swing.JButton();
         stocksButton = new javax.swing.JButton();
-        infoButton = new javax.swing.JButton();
-        basicsButton = new javax.swing.JButton();
         shareholderButton = new javax.swing.JButton();
         brokerButton = new javax.swing.JButton();
+        maxTextField = new javax.swing.JTextField();
+        minTextField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        currentTextField = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        uiLabel1 = new javax.swing.JLabel();
+        uiLabel3 = new javax.swing.JLabel();
+        uiLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(200, 400));
+        setPreferredSize(new java.awt.Dimension(400, 200));
+        getContentPane().setLayout(null);
 
         logoutButton.setText("Logout");
         logoutButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -52,70 +115,87 @@ public class MainMenu extends javax.swing.JFrame {
                 logoutButtonMouseClicked(evt);
             }
         });
+        getContentPane().add(logoutButton);
+        logoutButton.setBounds(280, 270, 80, 30);
 
-        stocksButton.setText("Market Shares");
+        stocksButton.setText("Share Basics");
         stocksButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                stocksButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                stocksButtonMouseExited(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 stocksButtonMousePressed(evt);
             }
         });
-
-        infoButton.setText("Trading Info");
-
-        basicsButton.setText("Share Basics");
+        getContentPane().add(stocksButton);
+        stocksButton.setBounds(10, 90, 130, 23);
 
         shareholderButton.setText("Shareholders");
+        shareholderButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                shareholderButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                shareholderButtonMouseExited(evt);
+            }
+        });
         shareholderButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 shareholderButtonActionPerformed(evt);
             }
         });
+        getContentPane().add(shareholderButton);
+        shareholderButton.setBounds(10, 170, 130, 23);
 
         brokerButton.setText("Find-A-Broker");
         brokerButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                brokerButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                brokerButtonMouseExited(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 brokerButtonMousePressed(evt);
             }
         });
+        getContentPane().add(brokerButton);
+        brokerButton.setBounds(10, 130, 130, 23);
+        getContentPane().add(maxTextField);
+        maxTextField.setBounds(0, 268, 77, 30);
+        getContentPane().add(minTextField);
+        minTextField.setBounds(100, 270, 77, 30);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 335, Short.MAX_VALUE)
-                .addComponent(logoutButton))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(78, 78, 78)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(stocksButton)
-                    .addComponent(basicsButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(infoButton)
-                    .addComponent(shareholderButton))
-                .addGap(82, 82, 82))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(149, 149, 149)
-                .addComponent(brokerButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(72, 72, 72)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(stocksButton)
-                    .addComponent(infoButton))
-                .addGap(43, 43, 43)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(basicsButton)
-                    .addComponent(shareholderButton))
-                .addGap(18, 18, 18)
-                .addComponent(brokerButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
-                .addComponent(logoutButton))
-        );
+        jLabel2.setText("Max Share Price");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(0, 240, 100, 30);
+
+        currentTextField.setText("100");
+        getContentPane().add(currentTextField);
+        currentTextField.setBounds(290, 40, 60, 30);
+
+        jLabel3.setText("Current Share Price");
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(150, 50, 130, 20);
+
+        uiLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eccoursework/eccw.png"))); // NOI18N
+        getContentPane().add(uiLabel1);
+        uiLabel1.setBounds(0, 80, 400, 40);
+
+        uiLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eccoursework/eccw.png"))); // NOI18N
+        getContentPane().add(uiLabel3);
+        uiLabel3.setBounds(0, 160, 400, 40);
+
+        uiLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eccoursework/eccw.png"))); // NOI18N
+        getContentPane().add(uiLabel2);
+        uiLabel2.setBounds(0, 120, 400, 40);
+
+        jLabel4.setText("Min Share Price");
+        getContentPane().add(jLabel4);
+        jLabel4.setBounds(100, 240, 100, 30);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -145,6 +225,30 @@ public class MainMenu extends javax.swing.JFrame {
         new StakeForm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_shareholderButtonActionPerformed
+
+    private void stocksButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stocksButtonMouseEntered
+        uiLabel1.setVisible(true);
+    }//GEN-LAST:event_stocksButtonMouseEntered
+
+    private void stocksButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stocksButtonMouseExited
+        uiLabel1.setVisible(false);
+    }//GEN-LAST:event_stocksButtonMouseExited
+
+    private void brokerButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_brokerButtonMouseEntered
+        uiLabel2.setVisible(true);
+    }//GEN-LAST:event_brokerButtonMouseEntered
+
+    private void brokerButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_brokerButtonMouseExited
+        uiLabel2.setVisible(false);
+    }//GEN-LAST:event_brokerButtonMouseExited
+
+    private void shareholderButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shareholderButtonMouseEntered
+        uiLabel3.setVisible(true);
+    }//GEN-LAST:event_shareholderButtonMouseEntered
+
+    private void shareholderButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shareholderButtonMouseExited
+        uiLabel3.setVisible(false);
+    }//GEN-LAST:event_shareholderButtonMouseExited
 
     /**
      * @param args the command line arguments
@@ -183,11 +287,18 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton basicsButton;
     private javax.swing.JButton brokerButton;
-    private javax.swing.JButton infoButton;
+    private javax.swing.JTextField currentTextField;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JButton logoutButton;
+    private javax.swing.JTextField maxTextField;
+    private javax.swing.JTextField minTextField;
     private javax.swing.JButton shareholderButton;
     private javax.swing.JButton stocksButton;
+    private javax.swing.JLabel uiLabel1;
+    private javax.swing.JLabel uiLabel2;
+    private javax.swing.JLabel uiLabel3;
     // End of variables declaration//GEN-END:variables
 }

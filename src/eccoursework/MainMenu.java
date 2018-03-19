@@ -65,6 +65,11 @@ public class MainMenu extends javax.swing.JFrame {
         basicsButton.setText("Share Basics");
 
         shareholderButton.setText("Shareholders");
+        shareholderButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                shareholderButtonActionPerformed(evt);
+            }
+        });
 
         brokerButton.setText("Find-A-Broker");
         brokerButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -134,6 +139,12 @@ public class MainMenu extends javax.swing.JFrame {
         new BrokerFrame(userData).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_brokerButtonMousePressed
+
+    private void shareholderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shareholderButtonActionPerformed
+        // TODO add your handling code here:
+        new StakeForm().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_shareholderButtonActionPerformed
 
     /**
      * @param args the command line arguments

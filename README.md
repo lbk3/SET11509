@@ -16,4 +16,4 @@ The application uses external components to handle the startup logic such as log
 - Populate JTextfields with database values
 - Monitor database values to prompt JOptionPane
 
-:thumbsup:
+:laughing: 👌 :100: Liam

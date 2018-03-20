@@ -181,15 +181,15 @@ public class MainMenu extends javax.swing.JFrame {
         getContentPane().add(jLabel3);
         jLabel3.setBounds(150, 50, 130, 20);
 
-        uiLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eccoursework/eccw.png"))); // NOI18N
+        uiLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eccoursework/lblBack1.png"))); // NOI18N
         getContentPane().add(uiLabel1);
         uiLabel1.setBounds(0, 80, 400, 40);
 
-        uiLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eccoursework/eccw.png"))); // NOI18N
+        uiLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eccoursework/lblBack3.png"))); // NOI18N
         getContentPane().add(uiLabel3);
         uiLabel3.setBounds(0, 160, 400, 40);
 
-        uiLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eccoursework/eccw.png"))); // NOI18N
+        uiLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eccoursework/lblBack2.png"))); // NOI18N
         getContentPane().add(uiLabel2);
         uiLabel2.setBounds(0, 120, 400, 40);
 
